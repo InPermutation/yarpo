@@ -27,6 +27,7 @@ bl SetGpio
 .unreq pinNum
 .unreq pinVal
 
+ldr r0,=2000000
 bl wait
 
 pinNum .req r0
@@ -37,15 +38,8 @@ bl SetGpio
 .unreq pinNum
 .unreq pinVal
 
+ldr r0,=2000000
 bl wait
 
 b loop$
-
-wait:
-mov r2,#0x070000
-wait$:
-sub r2,#1
-cmp r2,#0
-bne wait$
-mov pc,lr
 
