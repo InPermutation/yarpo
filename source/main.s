@@ -17,29 +17,31 @@ bl SetGpioFunction
 .unreq pinNum
 .unreq pinFunc
 
+ptrn .req r4
+ldr ptrn,=pattern
+ldr ptrn,[ptrn]
+seq .req r5
+mov seq,#0
+
 loop$:
 
-pinNum .req r0
-pinVal .req r1
-mov pinNum,#16
-mov pinVal,#0
-bl SetGpio
-.unreq pinNum
-.unreq pinVal
+    mov r1,#1
+    lsl r1,seq
+    and r1,ptrn
 
-ldr r0,=2000000
-bl wait
+    mov r0,#16
+    bl SetGpio
 
-pinNum .req r0
-pinVal .req r1
-mov pinNum,#16
-mov pinVal,#1
-bl SetGpio
-.unreq pinNum
-.unreq pinVal
+    ldr r0,=250000
+    bl wait
 
-ldr r0,=2000000
-bl wait
+    add seq,#1
+    and seq,#31
 
 b loop$
+
+.section .data
+.align 2
+pattern:
+.int 0b10101011000100010001101010111111
 
